@@ -4,8 +4,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import type { DraftExpense, Value } from "../types";
 import ErrorMessage from "./ErrorMessage";
+import { useBuget } from "../hooks/useBuget";
 
 export default function ExpenseForm() {
+  const { dispatch } = useBuget();
+
   const [expense, setExpense] = useState<DraftExpense>({
     amount: 0,
     name: "",
@@ -23,7 +26,8 @@ export default function ExpenseForm() {
       return;
     }
 
-  }
+    dispatch({ type: "ADD_EXPENSE", payload: { expense: expense } });
+  };
 
   const handleOnChangeDate = (value: Value) => {
     setExpense({
@@ -49,7 +53,7 @@ export default function ExpenseForm() {
         nuevo gasto:
       </legend>
 
-      {error &&  <ErrorMessage>{error}</ErrorMessage>}
+      {error && <ErrorMessage>{error}</ErrorMessage>}
 
       <div className="flex flex-col gap-2">
         <label htmlFor="name" className="text-xl">

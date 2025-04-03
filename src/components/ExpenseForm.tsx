@@ -5,28 +5,41 @@ import "react-datepicker/dist/react-datepicker.css";
 import type { DraftExpense, Value } from "../types";
 import ErrorMessage from "./ErrorMessage";
 import { useBuget } from "../hooks/useBuget";
+import SuccesMessage from "./SuccessMessage";
 
 export default function ExpenseForm() {
   const { dispatch } = useBuget();
 
-  const [expense, setExpense] = useState<DraftExpense>({
+  const INITIAL_EXPENSE = {
     amount: 0,
     name: "",
     category: "",
     date: new Date() as Value,
-  });
+  };
+
+  const [expense, setExpense] = useState<DraftExpense>(INITIAL_EXPENSE);
 
   const [error, setError] = useState<string>();
+  const [success, setSuccess] = useState<string>();
+
+  const isValid = () =>
+    Object.values(expense).includes("") || expense.amount <= 0;
 
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (Object.values(expense).includes("") || expense.amount <= 0) {
+    if (isValid()) {
       setError("Todos los campos son obligatorios");
       return;
     }
 
     dispatch({ type: "ADD_EXPENSE", payload: { expense: expense } });
+    setExpense(INITIAL_EXPENSE);
+    setError(undefined);
+    setSuccess("Agregado correctamente");
+    setTimeout(() => {
+      setSuccess(undefined)
+    },3000)
   };
 
   const handleOnChangeDate = (value: Value) => {
@@ -54,6 +67,7 @@ export default function ExpenseForm() {
       </legend>
 
       {error && <ErrorMessage>{error}</ErrorMessage>}
+      {success && <SuccesMessage>{success}</SuccesMessage>}
 
       <div className="flex flex-col gap-2">
         <label htmlFor="name" className="text-xl">
@@ -97,6 +111,7 @@ export default function ExpenseForm() {
           id="category"
           className="bg-slate-100 p-2 cursor-pointer"
           onChange={handleOnChange}
+          value={expense.category}
         >
           <option value="">--Selecciona Una Categoria--</option>
           {categories.map((category) => (

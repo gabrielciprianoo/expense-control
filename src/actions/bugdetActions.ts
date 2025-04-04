@@ -14,7 +14,6 @@ export const addExpense = (
   state: BudgetState,
   expense: DraftExpense
 ): BudgetState => {
-    
   const newExpense: Expense = {
     ...expense,
     id: uuid(),
@@ -23,5 +22,17 @@ export const addExpense = (
   return {
     ...state,
     expenses: [...state.expenses, newExpense],
+  };
+};
+
+export const deleteExpense = (
+  
+  state: BudgetState,
+  id: Expense["id"]
+
+): BudgetState => {
+  return {
+    ...state,
+    expenses: state.expenses.filter((expense) => expense.id !== id),
   };
 };

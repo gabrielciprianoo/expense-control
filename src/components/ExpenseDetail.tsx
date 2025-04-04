@@ -13,13 +13,14 @@ import {
 } from "react-swipeable-list";
 
 import "react-swipeable-list/dist/styles.css";
+import { useBuget } from "../hooks/useBuget";
 
 type ExpenseDetailProps = {
   expense: Expense;
 };
 
 export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
-  const { name, amount, category, date } = expense;
+  const {id, name, amount, category, date } = expense;
 
   const categoryInfo = useMemo(
     () => categories.filter((cat) => cat.id == category)[0],
@@ -28,20 +29,29 @@ export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
 
   const { name: categoryName, icon } = categoryInfo;
 
+  const { dispatch } = useBuget();
+
   const leadingActions = () => (
     <LeadingActions>
-      <SwipeAction onClick={() => console.log("Editando")}>Editar</SwipeAction>
+      <SwipeAction
+        onClick={() => 
+          dispatch({ type: "DELETE_EXPENSE", payload: { id } })}
+      >
+        Editar
+      </SwipeAction>
     </LeadingActions>
   );
 
   const trailingActions = () => (
     <TrailingActions>
-      <SwipeAction onClick={() => console.log("Eliminando")} destructive={true}>
+      <SwipeAction
+        onClick={() => 
+          dispatch({ type: "DELETE_EXPENSE", payload: { id } })}
+      >
         Eliminar
       </SwipeAction>
     </TrailingActions>
   );
-
 
   return (
     <SwipeableList>

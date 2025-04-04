@@ -1,23 +1,27 @@
-import { addExpense, deleteExpense, setBudget } from "../actions/bugdetActions"
+import { addExpense, deleteExpense, getExpenseById, setBudget, updateExpense } from "../actions/bugdetActions"
 import { DraftExpense, Expense } from "../types"
 
 export type BudgetActions = 
-    {type: "SET_BUDGET", payload: { budget: number}} |
-    {type: "SHOW_EXPENSE_MODAL"} |
-    {type: "HIDE_EXPENSE_MODAL"} |
-    {type: "ADD_EXPENSE", payload: { expense: DraftExpense}} |
-    {type: "DELETE_EXPENSE", payload: { id: Expense["id"]}} 
+    { type: "SET_BUDGET", payload: { budget: number } } |
+    { type: "SHOW_EXPENSE_MODAL"} |
+    { type: "HIDE_EXPENSE_MODAL"} |
+    { type: "ADD_EXPENSE", payload: { expense: DraftExpense} } |
+    { type: "DELETE_EXPENSE", payload: { id: Expense["id"] } } |
+    { type: "UPDATE_EXPENSE", payload: { expense: Expense } } |
+    { type: "GET_EXPENSE_BY_ID", payload: { id: Expense["id"] } } 
 
 export type BudgetState = {
     budget: number,
     modal: boolean
-    expenses: Expense[]
+    expenses: Expense[],
+    editingId: Expense["id"]
 }
 
 export const initialState : BudgetState = {
     budget: 0,
     modal: false,
-    expenses: []
+    expenses: [],
+    editingId: ''
 }
 
 export const budgetReducer = (
@@ -30,11 +34,15 @@ export const budgetReducer = (
         case "SHOW_EXPENSE_MODAL":
             return {...state, modal: true}
         case "HIDE_EXPENSE_MODAL":
-            return {...state, modal: false}
+            return {...state, modal: false, editingId: ''}
         case "ADD_EXPENSE":
             return addExpense(state, action.payload.expense);
         case "DELETE_EXPENSE":
             return deleteExpense(state, action.payload.id);
+        case "GET_EXPENSE_BY_ID":
+            return getExpenseById(state, action.payload.id);
+        case "UPDATE_EXPENSE":
+            return updateExpense(state, action.payload.expense);
         default:
             return state
     }

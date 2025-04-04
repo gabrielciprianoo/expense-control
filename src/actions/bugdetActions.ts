@@ -26,13 +26,42 @@ export const addExpense = (
 };
 
 export const deleteExpense = (
-  
   state: BudgetState,
   id: Expense["id"]
-
 ): BudgetState => {
   return {
     ...state,
     expenses: state.expenses.filter((expense) => expense.id !== id),
+  };
+};
+
+export const getExpenseById = (
+  state: BudgetState,
+  id: Expense["id"]
+): BudgetState => {
+  return {
+    ...state,
+    editingId: id,
+    modal: true,
+  };
+};
+
+
+export const updateExpense = (
+  state: BudgetState,
+  expense: Expense
+): BudgetState => {
+  const newExpenses = state.expenses.map((exp) => {
+    if (exp.id === expense.id) {
+      return expense;
+    }
+    return exp;
+  });
+
+  return {
+    ...state,
+    expenses: newExpenses,
+    editingId: "",
+    modal: false,
   };
 };

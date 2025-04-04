@@ -20,7 +20,7 @@ type ExpenseDetailProps = {
 };
 
 export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
-  const {id, name, amount, category, date } = expense;
+  const { id, name, amount, category, date } = expense;
 
   const categoryInfo = useMemo(
     () => categories.filter((cat) => cat.id == category)[0],
@@ -34,8 +34,7 @@ export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
   const leadingActions = () => (
     <LeadingActions>
       <SwipeAction
-        onClick={() => 
-          dispatch({ type: "DELETE_EXPENSE", payload: { id } })}
+        onClick={() => dispatch({ type: "GET_EXPENSE_BY_ID", payload: { id } })}
       >
         Editar
       </SwipeAction>
@@ -45,8 +44,7 @@ export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
   const trailingActions = () => (
     <TrailingActions>
       <SwipeAction
-        onClick={() => 
-          dispatch({ type: "DELETE_EXPENSE", payload: { id } })}
+        onClick={() => dispatch({ type: "DELETE_EXPENSE", payload: { id } })}
       >
         Eliminar
       </SwipeAction>

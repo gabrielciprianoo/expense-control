@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, FormEvent } from "react";
+import { ChangeEvent, useState, FormEvent, useEffect } from "react";
 import { categories } from "../data/categories";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,7 +8,19 @@ import { useBuget } from "../hooks/useBuget";
 import SuccesMessage from "./SuccessMessage";
 
 export default function ExpenseForm() {
-  const { dispatch } = useBuget();
+  const { state, dispatch } = useBuget();
+
+  useEffect(() => {
+    if (state.editingId) {
+      const editingExpense = state.expenses.find(
+        (expense) => expense.id === state.editingId
+      );
+
+      if (editingExpense) {
+        setExpense(editingExpense);
+      }
+    }
+  }, [state.editingId]);
 
   const INITIAL_EXPENSE = {
     amount: 0,
@@ -33,13 +45,19 @@ export default function ExpenseForm() {
       return;
     }
 
+    if(state.editingId) {
+      dispatch({ type: "UPDATE_EXPENSE", payload: { expense: { ...expense, id: state.editingId } } });
+      return;
+    }
+
+
     dispatch({ type: "ADD_EXPENSE", payload: { expense: expense } });
     setExpense(INITIAL_EXPENSE);
     setError(undefined);
     setSuccess("Agregado correctamente");
     setTimeout(() => {
-      setSuccess(undefined)
-    },3000)
+      setSuccess(undefined);
+    }, 3000);
   };
 
   const handleOnChangeDate = (value: Value) => {
@@ -137,7 +155,7 @@ export default function ExpenseForm() {
 
       <input
         type="submit"
-        value="registrar gasto"
+        value={ state.editingId ? "Actualizar Gasto" : "Agregar Gasto"}
         className="bg-blue-600 text-white p-2 rounded-md cursor-pointer hover:bg-blue-700 transition-colors w-full uppercase font-bold"
       />
     </form>

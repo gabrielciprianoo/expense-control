@@ -13,7 +13,7 @@ function App() {
   return (
     <>
       <header className="bg-blue-600 py-8 max-h-72">
-        <h1 className="uppercase text-4xl text-white font-black  text-center">
+        <h1 className="uppercase text-3xl px-2 md:px-0 text-white font-black  text-center">
           Control de Gastos
         </h1>
       </header>
@@ -23,7 +23,7 @@ function App() {
       </div>
 
       {isValidBuget && (
-        <main className="max-w-3xl mx-auto py-10">
+        <main className="max-w-3xl mx-auto py-10 px-2 md:px-0">
             <ExpenseList/>  
             <ExpenseModal />
         </main>

@@ -20,7 +20,7 @@ export default function ExpenseForm() {
         setExpense(editingExpense);
       }
     }
-  }, [state.editingId]);
+  }, [state.editingId, state.expenses]);
 
   const INITIAL_EXPENSE = {
     amount: 0,

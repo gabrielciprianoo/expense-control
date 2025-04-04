@@ -3,6 +3,7 @@ import BudgetForm from "./components/BudgetForm";
 import { useBuget } from "./hooks/useBuget";
 import BudgetTracker from "./components/BudgetTracker";
 import ExpenseModal from "./components/ExpenseModal";
+import ExpenseList from "./components/ExpenseList";
 
 function App() {
   const { state } = useBuget();
@@ -21,7 +22,12 @@ function App() {
         {isValidBuget ? <BudgetTracker /> : <BudgetForm />}
       </div>
 
-      {isValidBuget && <ExpenseModal />}
+      {isValidBuget && (
+        <main className="max-w-3xl mx-auto py-10">
+            <ExpenseList/>  
+            <ExpenseModal />
+        </main>
+      )}
     </>
   );
 }

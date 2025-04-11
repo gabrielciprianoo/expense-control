@@ -8,7 +8,7 @@ import { useBuget } from "../hooks/useBuget";
 import SuccesMessage from "./SuccessMessage";
 
 export default function ExpenseForm() {
-  const { state, dispatch } = useBuget();
+  const { state, dispatch, remainningBudget } = useBuget();
 
   useEffect(() => {
     if (state.editingId) {
@@ -18,6 +18,7 @@ export default function ExpenseForm() {
 
       if (editingExpense) {
         setExpense(editingExpense);
+        setPreviousAmount(editingExpense.amount);
       }
     }
   }, [state.editingId, state.expenses]);
@@ -30,9 +31,9 @@ export default function ExpenseForm() {
   };
 
   const [expense, setExpense] = useState<DraftExpense>(INITIAL_EXPENSE);
-
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState<string>();
+  const [previousAmount, setPreviousAmount] = useState(0);
 
   const isValid = () =>
     Object.values(expense).includes("") || expense.amount <= 0;
@@ -42,6 +43,11 @@ export default function ExpenseForm() {
 
     if (isValid()) {
       setError("Todos los campos son obligatorios");
+      return;
+    }
+    
+    if (( expense.amount - previousAmount )> remainningBudget) {
+      setError("El gasto no puede ser mayor al presupuesto disponible");
       return;
     }
 

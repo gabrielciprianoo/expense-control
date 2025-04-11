@@ -15,6 +15,7 @@
     "@tailwindcss/vite": "^4.0.17",
     "prop-types": "^15.8.1",
     "react": "^19.0.0",
+    "react-circular-progressbar": "^2.2.0",
     "react-datepicker": "^8.2.1",
     "react-dom": "^19.0.0",
     "react-swipeable-list": "^1.10.0",

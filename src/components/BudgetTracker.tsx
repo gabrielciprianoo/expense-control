@@ -1,8 +1,9 @@
 import AmountDisplay from "./AmountDisplay";
-
+import { useBuget } from "../hooks/useBuget";
 
 
 export default function BudgetTracker() {
+    const { state, totalExpenses, remainningBudget } = useBuget();
   return (
     <div className="grid grid-cols-1  md:grid-cols-2 gap-5">
 
@@ -20,15 +21,15 @@ export default function BudgetTracker() {
 
             <AmountDisplay
                 label = {"Presupuesto"}
-                amount = {300}
+                amount = {state.budget}
             />
             <AmountDisplay
                 label = {"Disponible"}
-                amount = {3000}
+                amount = {remainningBudget}
             />
             <AmountDisplay
                 label = {"Gastado"}
-                amount = {100}
+                amount = {totalExpenses}
             />
 
         </div>

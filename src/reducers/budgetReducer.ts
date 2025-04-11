@@ -8,7 +8,8 @@ export type BudgetActions =
     { type: "ADD_EXPENSE", payload: { expense: DraftExpense} } |
     { type: "DELETE_EXPENSE", payload: { id: Expense["id"] } } |
     { type: "UPDATE_EXPENSE", payload: { expense: Expense } } |
-    { type: "GET_EXPENSE_BY_ID", payload: { id: Expense["id"] } } 
+    { type: "GET_EXPENSE_BY_ID", payload: { id: Expense["id"] } } |
+    { type: "RESET_APP" }
 
 export type BudgetState = {
     budget: number,
@@ -53,6 +54,8 @@ export const budgetReducer = (
             return getExpenseById(state, action.payload.id);
         case "UPDATE_EXPENSE":
             return updateExpense(state, action.payload.expense);
+        case "RESET_APP":
+            return {...state, budget: 0, expenses: []}
         default:
             return state
     }

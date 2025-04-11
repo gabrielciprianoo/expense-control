@@ -3,7 +3,7 @@ import { useBuget } from "../hooks/useBuget";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 export default function BudgetTracker() {
-    const { state, totalExpenses, remainningBudget } = useBuget();
+    const { state, dispatch,  totalExpenses, remainningBudget } = useBuget();
     const percentage = ((totalExpenses / state.budget) * 100).toFixed(2);
     const progressBarColor = +percentage === 100 ? '#dc2626' : '#3b82f6';
   return (
@@ -27,7 +27,7 @@ export default function BudgetTracker() {
                 type="button"
                 className=" bg-pink-600 w-full p-2 text-white uppercase font-bold rounded-lg cursor-pointer hover:bg-pink-800 transition-colors duration-300"
                 onClick={() => {
-                    
+                    dispatch({type: "RESET_APP"})
                 }}
             >
                 Restablecer Presupuesto

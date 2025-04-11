@@ -3,7 +3,6 @@ import type { DraftExpense, Expense } from "../types";
 import { v4 as uuid } from "uuid";
 
 export const setBudget = (state: BudgetState, budget: number): BudgetState => {
-  console.log("presupuesto", budget);
   return {
     ...state,
     budget: budget,

@@ -4,6 +4,7 @@ import { useBuget } from "./hooks/useBuget";
 import BudgetTracker from "./components/BudgetTracker";
 import ExpenseModal from "./components/ExpenseModal";
 import ExpenseList from "./components/ExpenseList";
+import FilterByCategory from "./components/FilterByCategory";
 
 function App() {
   const { state } = useBuget();
@@ -29,6 +30,7 @@ function App() {
 
       {isValidBuget && (
         <main className="max-w-3xl mx-auto py-10 px-2 md:px-0">
+          {state.expenses.length > 0 && <FilterByCategory />}
           <ExpenseList />
           <ExpenseModal />
         </main>

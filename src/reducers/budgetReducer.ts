@@ -1,5 +1,5 @@
 import { addExpense, deleteExpense, getExpenseById, setBudget, updateExpense } from "../actions/bugdetActions"
-import { DraftExpense, Expense } from "../types"
+import { Category, DraftExpense, Expense } from "../types"
 
 export type BudgetActions = 
     { type: "SET_BUDGET", payload: { budget: number } } |
@@ -9,13 +9,15 @@ export type BudgetActions =
     { type: "DELETE_EXPENSE", payload: { id: Expense["id"] } } |
     { type: "UPDATE_EXPENSE", payload: { expense: Expense } } |
     { type: "GET_EXPENSE_BY_ID", payload: { id: Expense["id"] } } |
-    { type: "RESET_APP" }
+    { type: "RESET_APP" } |
+    { type: "FIlTER_EXPENSES", payload: { category: Category["id"] } }
 
 export type BudgetState = {
     budget: number,
     modal: boolean
     expenses: Expense[],
-    editingId: Expense["id"]
+    editingId: Expense["id"],
+    filterId: Category["id"]
 }
 
 const initialBuget = () : number => {
@@ -32,7 +34,8 @@ export const initialState : BudgetState = {
     budget: initialBuget(),
     modal: false,
     expenses: intitialExpenses(),
-    editingId: ''
+    editingId: '',
+    filterId: ''
 }
 
 export const budgetReducer = (
@@ -56,6 +59,8 @@ export const budgetReducer = (
             return updateExpense(state, action.payload.expense);
         case "RESET_APP":
             return {...state, budget: 0, expenses: []}
+        case "FIlTER_EXPENSES":
+            return {...state, filterId: action.payload.category }
         default:
             return state
     }

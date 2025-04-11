@@ -6,8 +6,9 @@ export default function ExpenseList() {
   const { state } = useBuget();
   const { expenses } = state;
 
-  const isEmpty = useMemo(() => expenses.length === 0, [expenses]);
-
+  const filterdExpenses = state.expenses.filter( expense => expense.category === state.filterId);
+  const expensesToShow = state.filterId ? filterdExpenses : expenses;
+  const isEmpty = useMemo(() => expensesToShow.length === 0, [expensesToShow.length]);
   return (
     <div className="mt-10 ">
       {isEmpty ? (
@@ -19,7 +20,7 @@ export default function ExpenseList() {
           <p className="text-gray-700 text-2xl font-bold capitalize ">listado de gastos</p>
 
           {
-            expenses.map( expense => (
+            expensesToShow.map( expense => (
                 <ExpenseDetail
                     key={expense.id}
                     expense={expense}
